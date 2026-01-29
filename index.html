@@ -4,89 +4,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TaskPro AI | Premium Task Management</title>
+    <title>TaskPro AI | Premium Management</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%236366f1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M21 10.656V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h12.344'/><path d='m9 11 3 3L22 4'/></svg>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script>
-        // Configuração global do ambiente necessária antes do carregamento dos módulos
-        window.process = { 
-            env: { 
-                NODE_ENV: 'production', 
-                API_KEY: "" // Injetado automaticamente pelo ambiente
-            } 
-        };
+        // Configuração vital de ambiente
+        window.process = { env: { NODE_ENV: 'production', API_KEY: "" } };
         
         window.addEventListener('error', function(e) {
-            console.error('Erro de inicialização:', e);
+            console.error('Falha crítica:', e);
             const root = document.getElementById('root');
-            if (root && (root.innerHTML === '' || root.innerHTML.includes('Iniciando'))) {
-                root.innerHTML = `<div style="padding: 40px; color: #ef4444; font-family: 'Plus Jakarta Sans', sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; text-align: center; background: #fff;">
-                    <div style="background: #fee2e2; padding: 200px; border-radius: 24px; margin-bottom: 24px;">
-                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            if (root) {
+                root.innerHTML = `
+                    <div style="height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; font-family:sans-serif; text-align:center; padding:20px; background:#f8fafc;">
+                        <div style="background:#fee2e2; color:#ef4444; padding:24px; border-radius:20px; margin-bottom:20px;">
+                            <svg width="40" height="40" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                        </div>
+                        <h1 style="font-weight:800; color:#1e293b;">Opa! Algo deu errado.</h1>
+                        <p style="color:#64748b; margin:10px 0 20px;">O navegador não conseguiu carregar os componentes do sistema.</p>
+                        <div style="background:#1e293b; color:#34d399; padding:15px; border-radius:10px; font-family:monospace; font-size:12px; max-width:100%; overflow:auto; text-align:left;">
+                            ${e.message}<br>Linha: ${e.lineno}
+                        </div>
+                        <button onclick="location.reload()" style="margin-top:20px; background:#6366f1; color:white; border:none; padding:12px 24px; border-radius:12px; font-weight:700; cursor:pointer;">Tentar recarregar</button>
                     </div>
-                    <h2 style="font-weight: 800; font-size: 24px; margin-bottom: 8px;">Erro ao Inicializar</h2>
-                    <p style="color: #64748b; max-width: 400px; margin-bottom: 24px;">Houve um problema ao carregar os módulos. Verifique se o servidor permite o acesso aos arquivos e se há conexão com a internet.</p>
-                    <pre style="background: #f8fafc; padding: 16px; border-radius: 12px; font-size: 11px; overflow: auto; max-width: 90vw; text-align: left; border: 1px solid #e2e8f0;">${e.message}\n${e.filename}</pre>
-                    <button onclick="location.reload()" style="margin-top: 24px; background: #6366f1; color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 700; cursor: pointer;">Tentar Novamente</button>
-                </div>`;
+                `;
             }
         });
 
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: {
-                        sans: ['Plus Jakarta Sans', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-                    },
-                    colors: {
-                        indigo: {
-                            50: '#f5f7ff', 100: '#ebf0fe', 200: '#ced9fd', 300: '#a1b7fa',
-                            400: '#6d8ef5', 500: '#4767ed', 600: '#3347dd', 700: '#2836c0',
-                            800: '#252e9c', 900: '#232b7d', 950: '#15184a',
-                        },
-                    },
-                },
-            },
+                    fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] },
+                    colors: { indigo: { 600: '#6366f1', 700: '#4f46e5' } }
+                }
+            }
         }
     </script>
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8fafc; margin: 0; padding: 0; overflow: hidden; }
-        #root:empty::before {
-            content: "";
-            position: fixed;
-            inset: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: white;
-            z-index: 100;
-        }
+        body { background-color: #f8fafc; margin: 0; overflow: hidden; }
         #root:empty::after {
-            content: "Iniciando TaskPro AI...";
+            content: "Iniciando TaskPro...";
             position: fixed;
-            top: 50%;
-            left: 50%;
+            top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            color: #6366f1;
+            font-family: 'Plus Jakarta Sans', sans-serif;
             font-weight: 800;
-            font-size: 1.1rem;
-            z-index: 101;
-            letter-spacing: -0.025em;
-            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+            color: #6366f1;
+            letter-spacing: -0.02em;
+            animation: pulse 1.5s infinite;
         }
-        @keyframes pulse {
-            0%, 100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-            50% { opacity: .5; transform: translate(-50%, -50%) scale(0.98); }
-        }
-        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #cbd5e1; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
     </style>
-<script type="importmap">
+    <script type="importmap">
 {
   "imports": {
     "react": "https://esm.sh/react@19.0.0",
@@ -102,7 +74,7 @@
 <body>
     <div id="root"></div>
     <script type="module">
-        // Importação usando o compilador esm.sh para arquivos TSX locais
+        // Estratégia de carregamento via ESM.sh runner
         import "https://esm.sh/run/./index.tsx";
     </script>
 </body>

@@ -1,26 +1,24 @@
 
-# Configurações para TaskPro AI no cPanel/Apache
+# CONFIGURAÇÃO DE ALTO DESEMPENHO E COMPATIBILIDADE
+<IfModule mod_headers.c>
+    # Permite que o serviço esm.sh leia os arquivos .tsx do seu servidor
+    Header set Access-Control-Allow-Origin "*"
+    Header set Access-Control-Allow-Methods "GET, OPTIONS"
+    Header set Access-Control-Allow-Headers "X-Requested-With, Content-Type, Origin, Accept"
+    
+    # Evita cache durante o desenvolvimento para que você veja as mudanças na hora
+    <FilesMatch "\.(tsx|ts|html|js)$">
+        Header set Cache-Control "no-cache, no-store, must-revalidate"
+        Header set Pragma "no-cache"
+        Header set Expires "0"
+    </FilesMatch>
+</IfModule>
+
 <IfModule mod_mime.c>
-  # Garante que arquivos .ts e .tsx sejam tratados como Javascript pelo navegador
-  AddType application/javascript .ts
-  AddType application/javascript .tsx
+    # Informa ao navegador que arquivos .tsx são JavaScript
+    AddType application/javascript .tsx
+    AddType application/javascript .ts
 </IfModule>
 
-# Habilita o Cross-Origin Resource Sharing (CORS) para permitir compilação remota
-<IfModule mod_headers.c>
-  Header set Access-Control-Allow-Origin "*"
-  Header set Access-Control-Allow-Methods "GET, OPTIONS"
-  Header set Access-Control-Allow-Headers "Content-Type, Authorization"
-</IfModule>
-
-# Previne cache agressivo em arquivos de código para refletir mudanças imediatamente
-<IfModule mod_headers.c>
-  <FilesMatch "\.(ts|tsx|js|html|css)$">
-    Header set Cache-Control "no-cache, no-store, must-revalidate"
-    Header set Pragma "no-cache"
-    Header set Expires "0"
-  </FilesMatch>
-</IfModule>
-
-# Garante que o servidor não tente processar .tsx como scripts CGI
-Options -ExecCGI
+# Desabilita listagem de diretórios por segurança
+Options -Indexes
