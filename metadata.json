@@ -1,0 +1,8 @@
+{
+  "name": "TaskPro AI - teste2",
+  "description": "Um gerenciador de tarefas premium com IA para organização diária, suporte a etiquetas coloridas, visualizações de agenda e lista, e assistente inteligente Gemini.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
