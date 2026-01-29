@@ -11,26 +11,18 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script>
-        // Configuração vital de ambiente
         window.process = { env: { NODE_ENV: 'production', API_KEY: "" } };
         
         window.addEventListener('error', function(e) {
-            console.error('Falha crítica:', e);
+            console.error('Runtime Error:', e);
             const root = document.getElementById('root');
-            if (root) {
-                root.innerHTML = `
-                    <div style="height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; font-family:sans-serif; text-align:center; padding:20px; background:#f8fafc;">
-                        <div style="background:#fee2e2; color:#ef4444; padding:24px; border-radius:20px; margin-bottom:20px;">
-                            <svg width="40" height="40" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
-                        </div>
-                        <h1 style="font-weight:800; color:#1e293b;">Opa! Algo deu errado.</h1>
-                        <p style="color:#64748b; margin:10px 0 20px;">O navegador não conseguiu carregar os componentes do sistema.</p>
-                        <div style="background:#1e293b; color:#34d399; padding:15px; border-radius:10px; font-family:monospace; font-size:12px; max-width:100%; overflow:auto; text-align:left;">
-                            ${e.message}<br>Linha: ${e.lineno}
-                        </div>
-                        <button onclick="location.reload()" style="margin-top:20px; background:#6366f1; color:white; border:none; padding:12px 24px; border-radius:12px; font-weight:700; cursor:pointer;">Tentar recarregar</button>
-                    </div>
-                `;
+            if (root && root.innerHTML === '') {
+                root.innerHTML = `<div style="height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:sans-serif;background:#f8fafc;color:#64748b;text-align:center;padding:20px;">
+                    <div style="background:#fee2e2;color:#ef4444;padding:20px;border-radius:50%;margin-bottom:20px;"><svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg></div>
+                    <h2 style="color:#1e293b;font-weight:800;margin-bottom:8px;">Erro de Carregamento</h2>
+                    <p style="max-width:400px;font-size:14px;">Não foi possível iniciar o TaskPro. Isso pode ser um problema de conexão com os servidores do React (esm.sh).</p>
+                    <button onclick="location.reload()" style="margin-top:20px;background:#6366f1;color:white;border:none;padding:10px 20px;border-radius:10px;font-weight:700;cursor:pointer;">Recarregar</button>
+                </div>`;
             }
         });
 
@@ -38,7 +30,6 @@
             theme: {
                 extend: {
                     fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] },
-                    colors: { indigo: { 600: '#6366f1', 700: '#4f46e5' } }
                 }
             }
         }
@@ -46,17 +37,16 @@
     <style>
         body { background-color: #f8fafc; margin: 0; overflow: hidden; }
         #root:empty::after {
-            content: "Iniciando TaskPro...";
+            content: "Conectando ao TaskPro...";
             position: fixed;
             top: 50%; left: 50%;
             transform: translate(-50%, -50%);
             font-family: 'Plus Jakarta Sans', sans-serif;
             font-weight: 800;
             color: #6366f1;
-            letter-spacing: -0.02em;
             animation: pulse 1.5s infinite;
         }
-        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+        @keyframes pulse { 0%, 100% { opacity: 1; transform: translate(-50%, -50%) scale(1); } 50% { opacity: 0.5; transform: translate(-50%, -50%) scale(0.95); } }
     </style>
     <script type="importmap">
 {
@@ -74,7 +64,7 @@
 <body>
     <div id="root"></div>
     <script type="module">
-        // Estratégia de carregamento via ESM.sh runner
+        // Uso do runner esm.sh otimizado para Vercel
         import "https://esm.sh/run/./index.tsx";
     </script>
 </body>
